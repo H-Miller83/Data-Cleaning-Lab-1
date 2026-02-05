@@ -169,33 +169,14 @@ colleges.info()
 
 # %%
 # Since this is a regression problem, we calculate the prevelance of the 
-# target variable by finding the mean.
+# target variable by finding the proportion of data above or below some boundary
+#
+# Let's see the percentage of colleges with a high graduation rate (say 90%)
 
-colleges['grad_rate'].describe()
-
-# The mean for grad rate is 0.821 (82.1 % graduation rate). However, when looking
-# closer at this column, some of the values are above 1, which means there's either 
-# errors in the data or some of the students in grad_rate are not included in the 
-# original cohort. 
-
-# %%
-# One of the rows has a grad_rate of 100 (it should be between 0 and 1),
-#  which completely skews the data, so let's drop that row:
-
-colleges = colleges.drop(index=208)
-
-# Let's try the mean again:
-colleges['grad_rate'].describe()
-
-# Now it's really low; I'm not liking this dataset at all.
-
-# %%
-# We can also see the percentage of colleges with a high graduation rate (say 90%)
-
-percent_above_90 = (colleges['grad_rate'] > 0.9).mean()
+percent_above_90 = (colleges['grad_rate'] > 0.9).mean() 
 print(percent_above_90)
 
-# Looks like only 0.2% of colleges in the dataset have a grad rate above 90%.
+# Looks like 9.5% of colleges in the dataset have a grad rate above 90%.
 
 # %% [markdown]
 # #### Correcting Variable Types
@@ -230,7 +211,7 @@ top_states = ["California","New York","Pennsylvania","Texas","Ohio"]
 # Using a lambda function
 # If x is in the list above, then change it to type "category", else "Other":
 colleges.state = (colleges.state.apply(lambda x: x if x in top_states
-                               else "Other")).astype('category')
+                                       else "Other")).astype('category')
 # Verifying 
 colleges.state.value_counts()
 
@@ -298,7 +279,7 @@ colleges_encoded[numeric_cols].describe()
 train, test = train_test_split(
     colleges_encoded,
     train_size=0.55,
-    random_state=42    # random_states fixed the random number generator so code is reproducible
+    random_state=83    # random_states fixes the random number generator so code is reproducible
 )
 
 # Looking at shapes:
@@ -312,7 +293,7 @@ print(f"Remaining set shape: {test.shape}")
 tune, test = train_test_split(
     test,
     train_size=0.5,
-    random_state=42
+    random_state=83
 )
 
 # Looking at shapes:
@@ -643,4 +624,26 @@ print(test['status'].value_counts(normalize=True))
 # %% [markdown]
 # ### Step 3: Reflection
 
-# %%
+# %% [markdown]
+# Almost immediately I knew I would have a better time working with the job 
+# placement data compared to the college completion dataset. The placement data
+# is much easier to understand, which was useful during the data preparation
+# process because I was able to concretely see the effects of the code. This is 
+# mainly due to the fact that this dataset is much smaller, having only 15 columns
+# and 215 rows.
+#
+# Going off the dataset size, I am most worried about whether the small size could
+# produce an effective model to predict job placements for students. Because of the 
+# limited number of observations, the model might be more sensitive to noise and be 
+# ill-suited to generalize newer data. Exposing the model to new data might then force
+# me to continuously retune and retest it so it's more adaptive.
+#
+# However, my instincts tell me that the data has the ability to address the problem
+# of predicting the placement status for students. The variables are clearly defined,
+# the target variable is already incorporated in the data, and the relationship between
+# the features and the target variable is more intuitive. I believe the overall simplicity
+# of the data will allow for a clean model build and evaluation during the machine learning 
+# process. Combine this with the consistent and interpretable data, I am generally confident
+# that the data is able to be used to successfully construct a model predicting whether or 
+# not a student gets placed in a job after college. 
+

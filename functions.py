@@ -34,12 +34,6 @@ def create_grad_rate(df):
 
 # This function adds in the new target variable column.
 
-# Then I'll drop the one row that has a grad_rate of a 100 even though it should
-# be in between 0 and 1:
-
-def clean_grad_rate(df):
-    df = df.drop(index=208)
-    return df
 
 
 # %%
