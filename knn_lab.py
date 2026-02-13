@@ -391,7 +391,7 @@ results_df.sort_values("specificity", ascending=False).reset_index(drop=True)
 
 # After testing my model with several different k and threshold values, there isn't just
 # one true "optimized" model. Soley based on accuracy, the model is best at a k of 7 and a
-# threshold of 0.6. However, looking at sensitivtity, which is better suited to our question,
+# threshold of 0.6. However, looking at sensitivity, which is better suited to our question,
 # then the best k is 3 with a threshold value of 0.3 (although the specificity is the lowest
 # compared to the others). 
 
@@ -451,7 +451,9 @@ results, confusion_matrix = knn_model(
 
 print(confusion_matrix)
 
-# Oddly enough those numbers look very similar to the grad_rate confusion matrix
+# Looks the model is really good at predicting a college to not be an HBCU but not
+# the best at predicting colleges that actually are HBCUs.
+
 
 # %%
 # Now we evaluate:
